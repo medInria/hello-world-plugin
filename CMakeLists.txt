@@ -1,21 +1,38 @@
-cmake_minimum_required(VERSION 2.8.1)
+cmake_minimum_required(VERSION 2.8.9)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+project(MyAwesomeProject)
 
-project(medInria-plugins-private)
+## #############################################################################
+## Enable precompiled headers for Visual studio
+## #############################################################################
 
-include(PluginsConfig)
+if (MSVC)
+  # Macros that enable precompiled headers to be added, defined by dtk.
+  include(dtkPch)
+  option(MEDINRIA_PLUGINS_USE_PRECOMPILED_HEADERS "Use precompiled headers" ON)
+endif(MSVC)
 
-PluginVersionNumber(2 0 2)
 
-find_package(MedInriaSuperProject REQUIRED)
+## #############################################################################
+## Find medinria-superproject
+## #############################################################################
 
-#   Eventually add libraries specific to this plugin here.
+find_package(medInria-superProject REQUIRED)
+# From here the following libraries are found and can be use in your plugins:
+#   -Qt
+#   -ITK
+#   -VTK
+#   -TTK
+#   -RPI
+#   -QtDCM
+#   -medinria
 
-# add_subdirectory(libs)
 
-add_plugin(ITKProcessExample ON)
+## #############################################################################
+## Add your plugins
+## #############################################################################
 
-#   Packaging. This should always be the last command.
+add_subdirectory(MyAwesomeProject-dir-name)
 
-#include(PluginPackaging )
+  
+
