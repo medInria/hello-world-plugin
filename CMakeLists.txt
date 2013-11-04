@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 
-project(myProject)
+project(helloworld)
 
 
 ## #############################################################################
@@ -25,7 +25,7 @@ find_package(medInria-superProject REQUIRED)
 if (MSVC)
   # Macros that enable precompiled headers to be added, defined by dtk.
   include(dtkPch)
-  option(USE_PRECOMPILED_HEADERS "Use precompiled headers" ON)
+  option(MEDINRIA_PLUGINS_USE_PRECOMPILED_HEADERS "Use precompiled headers" ON)
 endif(MSVC)
 
 
@@ -34,7 +34,7 @@ endif(MSVC)
 ## #############################################################################
 
 # call add_subdirectory for all plugins directory
-add_subdirectory(myProjectDirectory)
+add_subdirectory(helloworld)
 
   
 
