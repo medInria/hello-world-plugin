@@ -25,7 +25,7 @@ find_package(medInria-superProject REQUIRED)
 if (MSVC)
   # Macros that enable precompiled headers to be added, defined by dtk.
   include(dtkPch)
-  option(MEDINRIA_PLUGINS_USE_PRECOMPILED_HEADERS "Use precompiled headers" ON)
+  option(USE_PRECOMPILED_HEADERS "Use precompiled headers" ON)
 endif(MSVC)
 
 
