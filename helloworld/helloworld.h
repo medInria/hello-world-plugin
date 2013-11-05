@@ -38,11 +38,8 @@ public:
 
     static bool registered();
 
-
 public slots:
     void talkToTheWorld();
-
-
 
 private:
     helloworldPrivate *d;
