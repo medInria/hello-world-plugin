@@ -65,7 +65,8 @@ QString helloworldPlugin::name() const
 
 QString helloworldPlugin::description() const
 {
-    return tr("");
+    return tr("This is a small example to show how to create a project for a plugin and to build it with the medinria-superproject build on the side. "
+              "The plugin create a new workspace that allow vizualiation and a toolbox with a button which popup a hello world message box.");
 }
 
 QString helloworldPlugin::version() const
@@ -75,19 +76,17 @@ QString helloworldPlugin::version() const
 
 QString helloworldPlugin::contact() const
 {
-    return "";
+    return "medinria-userfeedback@inria.fr";
 }
 
 QStringList helloworldPlugin::authors() const
 {
-    QStringList list;
-    return list;
+    return QStringList() << "René-paul Debroize";
 }
 
 QStringList helloworldPlugin::contributors() const
 {
-    QStringList list;
-    return list;
+    return QStringList() << "René-paul Debroize";;
 }
 
 QString helloworldPlugin::identifier() const
@@ -105,6 +104,7 @@ QStringList helloworldPlugin::types() const
 {
     return QStringList() << "helloworld";
 }
+
 QStringList helloworldPlugin::dependencies() const
 {
     return QStringList();
