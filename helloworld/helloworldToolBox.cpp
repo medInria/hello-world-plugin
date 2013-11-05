@@ -26,6 +26,7 @@ helloworldToolBox::helloworldToolBox ( QWidget *parent ) : medToolBox ( parent )
 {
     this->setTitle("The hello world toolbox");
     this->setAboutPluginVisibility(true);
+    this->setAboutPluginButton(this->plugin());
 
     // Fill the toolBox
     QWidget *helloworldToolBoxBody = new QWidget(this);
@@ -68,7 +69,7 @@ bool helloworldToolBox::registered()
 dtkPlugin* helloworldToolBox::plugin()
 {
     medPluginManager* pm = medPluginManager::instance();
-    dtkPlugin* plugin = pm->plugin ( "helloworld" );
+    dtkPlugin* plugin = pm->plugin ( "helloworldPlugin" );
     return plugin;
 }
 

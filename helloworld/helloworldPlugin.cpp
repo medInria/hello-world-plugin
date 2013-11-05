@@ -85,12 +85,12 @@ QString helloworldPlugin::contact() const
 
 QStringList helloworldPlugin::authors() const
 {
-    return QStringList() << "René-paul Debroize";
+    return QStringList() << "Rene-paul Debroize";
 }
 
 QStringList helloworldPlugin::contributors() const
 {
-    return QStringList() << "René-paul Debroize";;
+    return QStringList() << "Rene-paul Debroize";;
 }
 
 QString helloworldPlugin::identifier() const
