@@ -13,6 +13,7 @@
 
 #include "helloworld.h"
 #include "helloworldPlugin.h"
+#include "helloworldToolBox.h"
 
 #include <dtkLog/dtkLog.h>
 
@@ -48,7 +49,10 @@ helloworldPlugin::~helloworldPlugin()
 bool helloworldPlugin::initialize()
 {
     if(!helloworld::registered())
-        dtkWarn() << "Unable to register helloworld type";
+        dtkWarn() << "Unable to register helloworld workspace";
+
+    if(!helloworldToolBox::registered())
+        dtkWarn() << "Unable to register helloworld toolboxe";
     
     return true;
 }

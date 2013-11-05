@@ -44,6 +44,7 @@ include(${medInria_USE_FILE})
 set(${PROJECT_NAME}_HEADERS_MOC
   helloworldPlugin.h
   helloworld.h
+  helloworldToolBox.h
   )
 
 set(${PROJECT_NAME}_HEADERS
@@ -53,6 +54,7 @@ set(${PROJECT_NAME}_HEADERS
 set(${PROJECT_NAME}_SOURCES
   helloworldPlugin.cpp
   helloworld.cpp
+  helloworldToolBox.cpp
   )
 
 

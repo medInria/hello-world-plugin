@@ -13,32 +13,27 @@
 
 #pragma once
 
-#include <QtCore>
+#include <medFilteringAbstractToolBox.h>
 
-#include <medWorkspace.h>
+class helloworldToolBoxPrivate;
 
-#include "helloworldPluginExport.h"
-
-
-class helloworldPrivate;
-
-class HELLOWORLDPLUGIN_EXPORT helloworld : public medWorkspace
+class helloworldToolBox : public medToolBox
 {
     Q_OBJECT
 
 public:
-     helloworld(QWidget *parent = 0);
-    ~helloworld();
+    helloworldToolBox(QWidget *parentToolBox = 0);
+    ~helloworldToolBox();
 
-    virtual void setupViewContainerStack();
-
-    virtual QString identifier()  const;
-    virtual QString description() const;
-    static bool isUsable();
-
+public:
     static bool registered();
+    dtkPlugin* plugin();
 
-private:
-    helloworldPrivate *d;
+private slots:
+    void talkToTheWorld();
+
 };
+
+medToolBox *createhelloworldToolBox(QWidget *parent);
+
 

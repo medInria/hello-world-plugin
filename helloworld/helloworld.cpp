@@ -16,7 +16,7 @@
 
 #include <medTabbedViewContainers.h>
 #include <medToolBox.h>
-
+#include <medToolBoxFactory.h>
 #include <QMessageBox>
 
 #include <medWorkspaceFactory.h>
@@ -24,30 +24,21 @@
 class helloworldPrivate
 {
 public:
-    medToolBox *helloworldToolBox;
 
 };
 
 // constructor of the workspace
 helloworld::helloworld(QWidget *parent) : medWorkspace(parent), d(new helloworldPrivate)
 {
-    // Create a ToolBox and add it to the toolBox container of the workspace.
-    d->helloworldToolBox = new medToolBox(parent);
-    this->addToolBox(d->helloworldToolBox);
+    // Create suitable toolboxes and add them to the toolBox container of the workspace.
+    foreach(QString tbName, medToolBoxFactory::instance()->toolBoxesFromCategory("helloworld"))
+    {
 
-    d->helloworldToolBox->setTitle("The hello world toolbox");
-
-    // Fill the toolBox
-    QWidget *helloworldToolBoxBody = new QWidget(d->helloworldToolBox);
-    QPushButton *helloworldButton = new QPushButton("Click here", helloworldToolBoxBody);
-    QVBoxLayout *helloworldToolBoxLayout =  new QVBoxLayout(helloworldToolBoxBody);
-    helloworldToolBoxLayout->addWidget(helloworldButton);
-    helloworldToolBoxBody->setLayout(helloworldToolBoxLayout);
-    d->helloworldToolBox->addWidget(helloworldToolBoxBody);
-
-    // Connections
-    connect(helloworldButton, SIGNAL(clicked()), this, SLOT(talkToTheWorld()));
-
+        qDebug()<<"\n\ntbName: " << tbName;
+        medToolBox *tb = medToolBoxFactory::instance()->createToolBox(tbName);
+        if (tb)
+            this->addToolBox(tb);
+    }
 }
 
 // destructor
@@ -57,30 +48,19 @@ helloworld::~helloworld(void)
     d = NULL;
 }
 
-
 // Create a new tab in the view container of the workspace, where one can open views.
 void helloworld::setupViewContainerStack()
 {
     if (!stackedViewContainers()->count())
     {
-        const QString description = this->description();
         QString createdTab = addDefaultTypeContainer("Hello world tab");
-        qDebug() << "Workspace" << this->description() << "created a new tab" << createdTab;
+        qDebug() << "Workspace" << this->identifier() << "created a new tab" << createdTab;
     }
 }
 
 
-void helloworld::talkToTheWorld()
-{
-    QMessageBox::information(d->helloworldToolBox,
-                             "Hi !",
-                             "Hello world !!!"
-                             );
-}
-
-
 QString helloworld::identifier() const {
-    return "Hello world !!!";
+    return "helloworld";
 }
 
 QString helloworld::description() const {
@@ -99,7 +79,7 @@ bool helloworld::registered()
     // (ie: workspace, process, data, dataSource, etc.)
     return medWorkspaceFactory::instance()->registerWorkspace
             <helloworld>(
-                "Hello world !!!",
+                "helloworld",
                 "Hello world !!!",
                 "Would I say : 'Hello World !!!' ?"
                 );
