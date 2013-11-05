@@ -97,7 +97,7 @@ QString helloworldPlugin::identifier() const
 
 QStringList helloworldPlugin::tags() const
 {
-    return QStringList();
+    return QStringList() << "hello" << "world" << "example" << "how to";
 }
 
 QStringList helloworldPlugin::types() const
