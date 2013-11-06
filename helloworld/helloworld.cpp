@@ -38,8 +38,8 @@
 class helloworldPrivate
 {
 public:
-    medAbstractView *currentView;
     dtkSmartPointer <dtkAbstractData> inputData;
+    dtkSmartPointer<dtkAbstractProcess> process;
 };
 
 // constructor of the workspace
@@ -52,7 +52,7 @@ helloworld::helloworld(QWidget *parent) : medWorkspace(parent), d(new helloworld
         if (tb)
             this->addToolBox(tb);
         connect(this, SIGNAL(dataValidForCanny(const bool)), tb, SLOT(enableCannyProcessButton(const bool)));
-        connect(tb, SIGNAL(runCannyProcess()), this, SLOT(runCannyProcess(const bool)));
+        connect(tb, SIGNAL(runCannyProcess()), this, SLOT(runCannyProcess()));
     }
 }
 
@@ -88,10 +88,10 @@ void helloworld::checkInput(const medDataIndex &index)
 
 void helloworld::runCannyProcess()
 {
-    dtkSmartPointer<dtkAbstractProcess> process = dtkAbstractProcessFactory::instance()->createSmartPointer("helloworldCannyProcess");
-    process->setInput(d->inputData);
+    d->process = dtkAbstractProcessFactory::instance()->createSmartPointer("helloworldCannyProcess");
+    d->process->setInput(d->inputData);
     medRunnableProcess *runProcess = new medRunnableProcess;
-    runProcess->setProcess (process);
+    runProcess->setProcess (d->process);
 
     medJobManager::instance()->registerJobItem(runProcess);
     connect(runProcess, SIGNAL(success(QObject*)), this, SLOT(setCannyOutput()));
@@ -102,6 +102,7 @@ void helloworld::runCannyProcess()
 void helloworld::setCannyOutput()
 {
     qDebug()<<"\n\n canny Output !!!";
+    this->currentViewContainer()->views().first()->setData(d->process->output());
 }
 
 // Create a new tab in the view container of the workspace, where one can open views.

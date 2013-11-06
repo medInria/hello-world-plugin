@@ -34,7 +34,8 @@ public slots:
     dtkAbstractData *output(void);
 
 private:
-   helloworldCannyProcessPrivate *d;
+    template <class ImageType> void runCanny();
+    helloworldCannyProcessPrivate *d;
 
 };
 

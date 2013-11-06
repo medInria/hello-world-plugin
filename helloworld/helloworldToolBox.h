@@ -40,6 +40,9 @@ private slots:
 private:
     helloworldToolBoxPrivate *d;
 
+signals:
+    void runCannyProcess();
+
 };
 
 medToolBox *createhelloworldToolBox(QWidget *parent);
