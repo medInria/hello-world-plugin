@@ -14,6 +14,7 @@
 #include <medMetaDataKeys.h>
 
 #include <itkCannyEdgeDetectionImageFilter.h>
+#include <itkCastImageFilter.h>
 
 
 // /////////////////////////////////////////////////////////////////
@@ -25,7 +26,6 @@ class helloworldCannyProcessPrivate
 public:
     dtkSmartPointer <dtkAbstractData> input;
     dtkSmartPointer <dtkAbstractData> output;
-
     double variance;
 };
 
@@ -59,6 +59,7 @@ void helloworldCannyProcess::setInput ( dtkAbstractData *data )
     if ( !data )
         return;
 
+    qDebug()<<"set Data !!!";
     d->input = data;
 }
 
@@ -75,23 +76,74 @@ int helloworldCannyProcess::update ( void )
         return -1;
     }
 
-   /* d->output = dtkAbstractDataFactory::instance()->createSmartPointer ( "itkDataImageUShortFloat3");
+    QString type = QString (d->input->identifier());
 
-    // cast our input data into itk image
-    typedef itk::Image <float, 3> ImageType;
-    ImageType *itkInput = dynamic_cast<ImageType*>((itk::Object*)(d->input->data()));
+    if ( type == "itkDataImageChar3" )
+    {
+        runCanny<itk::Image<char, 3> >();
+    }
+    else if ( type == "itkDataImageUChar3" )
+    {
+       runCanny<itk::Image<unsigned char, 3> >();
+    }
+    else if ( type == "itkDataImageShort3" )
+    {
+        runCanny<itk::Image<short, 3> >();
+    }
+    else if ( type == "itkDataImageUShort3" )
+    {
+        runCanny<itk::Image<unsigned short, 3> >();
+    }
+    else if ( type == "itkDataImageInt3" )
+    {
+        runCanny<itk::Image<int, 3> >();
+    }
+    else if ( type == "itkDataImageUInt3" )
+    {
+        runCanny<itk::Image<unsigned int, 3> >();
+    }
+    else if ( type == "itkDataImageLong3" )
+    {
+        runCanny<itk::Image<long, 3> >();
+    }
+    else if ( type == "itkDataImageULong3" )
+    {
+        runCanny<itk::Image<unsigned long, 3> >();
+    }
+    else if ( type == "itkDataImageFloat3" )
+    {
+        runCanny<itk::Image<float, 3> >();
+    }
+    else if ( type == "itkDataImageDouble3" )
+    {
+        runCanny<itk::Image<double, 3> >();
+    }
+
+    return EXIT_SUCCESS;
+}
+
+template <class ImageType> void helloworldCannyProcess::runCanny()
+{
+
 
     //compute canny
-    typedef itk::CannyEdgeDetectionImageFilter <ImageType, ImageType> CannyFilter;
-    CannyFilter *cannyFilter = CannyFilter::New();
+    typedef itk::Image<float, 3> RealImageType;
+    typedef itk::CastImageFilter <ImageType, RealImageType> CastFilter;
+    typename CastFilter::Pointer castFilter = CastFilter::New();
+    castFilter->SetInput(dynamic_cast<ImageType*>((itk::Object*)(d->input->data())));
+    castFilter->Update();
+
+    typedef itk::CannyEdgeDetectionImageFilter <RealImageType, RealImageType> CannyFilter;
+    typename CannyFilter::Pointer cannyFilter = CannyFilter::New();
+
     cannyFilter->SetVariance(d->variance);
-    cannyFilter->SetInput(itkInput);
+
+    cannyFilter->SetInput(castFilter->GetOutput());
     cannyFilter->Update();
 
     // update output data
-    d->output->setData(cannyFilter->GetOutput());*/
-
-    return EXIT_SUCCESS;
+    d->output = dtkAbstractDataFactory::instance()->createSmartPointer ("itkDataImageFloat3");
+    d->output->setData(cannyFilter->GetOutput());
 }
 
 dtkAbstractData * helloworldCannyProcess::output ( void )
