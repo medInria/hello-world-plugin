@@ -36,6 +36,9 @@ include(dtkPlugin)
 find_package(medInria REQUIRED)
 include(${medInria_USE_FILE})
 
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
 
 ## #################################################################
 ## Input
@@ -45,6 +48,7 @@ set(${PROJECT_NAME}_HEADERS_MOC
   helloworldPlugin.h
   helloworld.h
   helloworldToolBox.h
+  helloworldCannyProcess.h
   )
 
 set(${PROJECT_NAME}_HEADERS
@@ -55,6 +59,7 @@ set(${PROJECT_NAME}_SOURCES
   helloworldPlugin.cpp
   helloworld.cpp
   helloworldToolBox.cpp
+  helloworldCannyProcess.cpp
   )
 
 
@@ -71,6 +76,7 @@ add_library(${PROJECT_NAME} SHARED
 
 target_link_libraries(${PROJECT_NAME}
   ${QT_LIBRARIES}
+  ${ITK_LIBRARIES}
   dtkLog
   dtkCore
   medCore

@@ -22,7 +22,15 @@
 #include <QMessageBox>
 
 
-helloworldToolBox::helloworldToolBox ( QWidget *parent ) : medToolBox ( parent )
+
+class helloworldToolBoxPrivate
+{
+public:
+    dtkAbstractData *inputData;
+    QPushButton *runCanny;
+};
+
+helloworldToolBox::helloworldToolBox ( QWidget *parent ) : medToolBox ( parent ), d(new helloworldToolBoxPrivate)
 {
     this->setTitle("The hello world toolbox");
     this->setAboutPluginVisibility(true);
@@ -31,13 +39,17 @@ helloworldToolBox::helloworldToolBox ( QWidget *parent ) : medToolBox ( parent )
     // Fill the toolBox
     QWidget *helloworldToolBoxBody = new QWidget(this);
     QPushButton *helloworldButton = new QPushButton("Click here", helloworldToolBoxBody);
+    d->runCanny = new QPushButton("run canny edge detection", helloworldToolBoxBody);
+    d->runCanny->setDisabled(true);
     QVBoxLayout *helloworldToolBoxLayout =  new QVBoxLayout(helloworldToolBoxBody);
     helloworldToolBoxLayout->addWidget(helloworldButton);
+    helloworldToolBoxLayout->addWidget(d->runCanny);
     helloworldToolBoxBody->setLayout(helloworldToolBoxLayout);
     this->addWidget(helloworldToolBoxBody);
 
     // Connections
     connect(helloworldButton, SIGNAL(clicked()), this, SLOT(talkToTheWorld()));
+    connect(d->runCanny, SIGNAL(clicked()), this, SIGNAL(runCannyProcess()));
 }
 
 helloworldToolBox::~helloworldToolBox()
@@ -53,6 +65,13 @@ void helloworldToolBox::talkToTheWorld()
                              "Hello world !!!"
                              );
 }
+
+void helloworldToolBox::enableCannyProcessButton(const bool enable)
+{
+    d->runCanny->setEnabled(enable);
+}
+
+
 
 bool helloworldToolBox::registered()
 {

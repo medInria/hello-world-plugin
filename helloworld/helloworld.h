@@ -21,6 +21,7 @@
 
 
 class helloworldPrivate;
+class medDataIndex;
 
 class HELLOWORLDPLUGIN_EXPORT helloworld : public medWorkspace
 {
@@ -37,6 +38,14 @@ public:
     static bool isUsable();
 
     static bool registered();
+
+private slots:
+    void checkInput(const medDataIndex &index);
+    void runCannyProcess();
+    void setCannyOutput();
+
+signals:
+    void dataValidForCanny(const bool valid);
 
 private:
     helloworldPrivate *d;
