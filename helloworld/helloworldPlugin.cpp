@@ -14,6 +14,7 @@
 #include "helloworld.h"
 #include "helloworldPlugin.h"
 #include "helloworldToolBox.h"
+#include "helloworldCannyProcess.h"
 
 #include <dtkLog/dtkLog.h>
 
@@ -53,7 +54,10 @@ bool helloworldPlugin::initialize()
 
     if(!helloworldToolBox::registered())
         dtkWarn() << "Unable to register helloworld toolboxe";
-    
+
+    if(!helloworldCannyProcess::registered())
+        dtkWarn() << "Unable to register helloworldCannyProcess process";
+
     return true;
 }
 

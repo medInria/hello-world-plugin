@@ -15,9 +15,12 @@
 
 #include <medFilteringAbstractToolBox.h>
 
-class helloworldToolBoxPrivate;
+#include "helloworldPluginExport.h"
 
-class helloworldToolBox : public medToolBox
+class helloworldToolBoxPrivate;
+class medDataIndex;
+
+class HELLOWORLDPLUGIN_EXPORT helloworldToolBox : public medToolBox
 {
     Q_OBJECT
 
@@ -25,12 +28,17 @@ public:
     helloworldToolBox(QWidget *parentToolBox = 0);
     ~helloworldToolBox();
 
-public:
     static bool registered();
     dtkPlugin* plugin();
 
+public slots:
+    void enableCannyProcessButton(const bool enable);
+
 private slots:
     void talkToTheWorld();
+
+private:
+    helloworldToolBoxPrivate *d;
 
 };
 
