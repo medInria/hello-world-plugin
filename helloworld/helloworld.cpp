@@ -115,9 +115,8 @@ void helloworld::setupViewContainerStack()
         medSingleViewContainer *singleViewContainer = new medSingleViewContainer ();
         connect(singleViewContainer, SIGNAL(imageSet(medDataIndex)),
                     this, SLOT(checkInput(medDataIndex)));
-        singleViewContainer->setMultiLayer(false);
 
-        //ownership of singleViewContainer is transferred to the stackedWidget.
+        singleViewContainer->setMultiLayer(false);
         this->stackedViewContainers()->addContainer (identifier(), singleViewContainer);
         this->stackedViewContainers()->lockTabs();
         this->stackedViewContainers()->hideTabBar();

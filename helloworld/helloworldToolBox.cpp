@@ -26,11 +26,10 @@
 class helloworldToolBoxPrivate
 {
 public:
-    dtkAbstractData *inputData;
     QPushButton *runCanny;
 };
 
-helloworldToolBox::helloworldToolBox ( QWidget *parent ) : medToolBox ( parent ), d(new helloworldToolBoxPrivate)
+helloworldToolBox::helloworldToolBox (QWidget *parent) : medToolBox (parent), d(new helloworldToolBoxPrivate)
 {
     this->setTitle("The hello world toolbox");
     this->setAboutPluginVisibility(true);
@@ -72,7 +71,6 @@ void helloworldToolBox::enableCannyProcessButton(const bool enable)
 }
 
 
-
 bool helloworldToolBox::registered()
 {
     medToolBoxFactory* factory = medToolBoxFactory::instance();
@@ -93,7 +91,7 @@ dtkPlugin* helloworldToolBox::plugin()
 }
 
 
-medToolBox *createHelloworldToolBox ( QWidget *parent )
+medToolBox *createHelloworldToolBox (QWidget *parent)
 {
-    return new helloworldToolBox ( parent );
+    return new helloworldToolBox (parent);
 }
