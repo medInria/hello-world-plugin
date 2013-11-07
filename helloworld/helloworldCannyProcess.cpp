@@ -36,7 +36,7 @@ public:
 
 helloworldCannyProcess::helloworldCannyProcess(void) : dtkAbstractProcess(), d(new helloworldCannyProcessPrivate)
 {
-    d->variance = 1;
+    d->variance = 12;
 }
 
 helloworldCannyProcess::~helloworldCannyProcess(void)

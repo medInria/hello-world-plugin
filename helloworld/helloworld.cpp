@@ -101,8 +101,9 @@ void helloworld::runCannyProcess()
 
 void helloworld::setCannyOutput()
 {
-    qDebug()<<"\n\n canny Output !!!";
-    this->currentViewContainer()->views().first()->setData(d->process->output());
+    this->currentViewContainer()->views().first()->close();
+    this->currentViewContainer()->open(d->process->output());
+    emit dataValidForCanny(false);
 }
 
 // Create a new tab in the view container of the workspace, where one can open views.
