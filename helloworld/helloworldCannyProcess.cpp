@@ -51,7 +51,7 @@ helloworldCannyProcessPrivate::eventCallback(itk::Object* caller, const itk::Eve
 
 helloworldCannyProcess::helloworldCannyProcess(void) : dtkAbstractProcess(), d(new helloworldCannyProcessPrivate(this))
 {
-    d->variance = 12;
+    d->variance = 0.5;
 }
 
 helloworldCannyProcess::~helloworldCannyProcess(void)

@@ -46,7 +46,7 @@ include(${ITK_USE_FILE})
 
 set(${PROJECT_NAME}_HEADERS_MOC
   helloworldPlugin.h
-  helloworld.h
+  helloworldWorkspace.h
   helloworldToolBox.h
   helloworldCannyProcess.h
   )
@@ -57,7 +57,7 @@ set(${PROJECT_NAME}_HEADERS
 
 set(${PROJECT_NAME}_SOURCES
   helloworldPlugin.cpp
-  helloworld.cpp
+  helloworldWorkspace.cpp
   helloworldToolBox.cpp
   helloworldCannyProcess.cpp
   )
