@@ -88,6 +88,8 @@ void helloworld::checkInput(const medDataIndex &index)
 
 void helloworld::runCannyProcess()
 {
+     emit dataValidForCanny(false);
+
     d->process = dtkAbstractProcessFactory::instance()->createSmartPointer("helloworldCannyProcess");
     d->process->setInput(d->inputData);
     medRunnableProcess *runProcess = new medRunnableProcess;
@@ -101,9 +103,8 @@ void helloworld::runCannyProcess()
 
 void helloworld::setCannyOutput()
 {
-    this->currentViewContainer()->views().first()->close();
+    this->currentViewContainer()->view()->close();
     this->currentViewContainer()->open(d->process->output());
-    emit dataValidForCanny(false);
 }
 
 // Create a new tab in the view container of the workspace, where one can open views.
