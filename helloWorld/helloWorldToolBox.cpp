@@ -39,7 +39,7 @@ helloWorldToolBox::helloWorldToolBox (QWidget *parent) : medToolBox (parent), d(
     // Fill the toolBox
     QWidget *helloWorldToolBoxBody = new QWidget(this);
     QPushButton *helloWorldButton = new QPushButton("Click here", helloWorldToolBoxBody);
-    d->runCanny = new QPushButton("run canny edge detection", helloWorldToolBoxBody);
+    d->runCanny = new QPushButton("Run canny edge detection", helloWorldToolBoxBody);
     d->runCanny->setDisabled(true);
     QVBoxLayout *helloWorldToolBoxLayout =  new QVBoxLayout(helloWorldToolBoxBody);
     helloWorldToolBoxLayout->addWidget(helloWorldButton);
