@@ -94,6 +94,9 @@ void helloWorldWorkspace::runCannyProcess()
 
     d->process = dtkAbstractProcessFactory::instance()->createSmartPointer("helloWorldCannyProcess");
     d->process->setInput(d->inputData);
+
+    qDebug() << "check!!!!!!";
+
     medRunnableProcess *runProcess = new medRunnableProcess;
     runProcess->setProcess (d->process);
 
@@ -101,12 +104,14 @@ void helloWorldWorkspace::runCannyProcess()
     connect(runProcess, SIGNAL(success(QObject*)), this, SLOT(setCannyOutput()));
 
     medMessageProgress *messageProgress = medMessageController::instance()->showProgress("Canny edge detection");
+
     messageProgress->setProgress(0);
     connect(runProcess, SIGNAL(progressed(int)), messageProgress, SLOT(setProgress(int)));
     connect(runProcess, SIGNAL(success(QObject*)), messageProgress, SLOT(success()));
 
     QThreadPool::globalInstance()->start(dynamic_cast<QRunnable*>(runProcess));
 }
+
 
 
 void helloWorldWorkspace::setCannyOutput()
