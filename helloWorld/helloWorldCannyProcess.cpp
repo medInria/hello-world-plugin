@@ -26,7 +26,7 @@ class helloWorldCannyProcessPrivate
 {
 public:
     helloWorldCannyProcess *parent;
-    helloWorldCannyProcessPrivate(helloWorldCannyProcess *p) {parent = p;}
+    helloWorldCannyProcessPrivate() :parent(NULL){}
 
     dtkSmartPointer <dtkAbstractData> input;
     dtkSmartPointer <dtkAbstractData> output;
@@ -49,8 +49,9 @@ helloWorldCannyProcessPrivate::eventCallback(itk::Object* caller, const itk::Eve
 // helloWorldCannyProcess
 // /////////////////////////////////////////////////////////////////
 
-helloWorldCannyProcess::helloWorldCannyProcess(void) : dtkAbstractProcess(), d(new helloWorldCannyProcessPrivate(this))
+helloWorldCannyProcess::helloWorldCannyProcess(void) : dtkAbstractProcess(), d(new helloWorldCannyProcessPrivate())
 {
+    d->parent = this;
     d->variance = 0.5;
 }
 
@@ -60,11 +61,10 @@ helloWorldCannyProcess::~helloWorldCannyProcess(void)
     d = NULL;
 }
 
-void helloWorldCannyProcess::emitProgressed(const int progression)
+void helloWorldCannyProcess::emitProgressed(int progression)
 {
     emit progressed(progression);
     qDebug() << "canny Progression" << progression;
-
 }
 
 bool helloWorldCannyProcess::registered(void)
@@ -82,7 +82,6 @@ void helloWorldCannyProcess::setInput ( dtkAbstractData *data )
     if ( !data )
         return;
 
-    qDebug()<<"set Data !!!";
     d->input = data;
 }
 
@@ -100,7 +99,7 @@ int helloWorldCannyProcess::update ( void )
     }
 
     d->callback = itk::CStyleCommand::New();
-    d->callback->SetClientData((void*) this);
+    d->callback->SetClientData((void*) d);
     d->callback->SetCallback(helloWorldCannyProcessPrivate::eventCallback);
 
     QString type = QString (d->input->identifier());
