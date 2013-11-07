@@ -2,17 +2,17 @@
 
 #include <dtkCore/dtkAbstractProcess.h>
 
-#include "helloworldPluginExport.h"
+#include "helloWorldPluginExport.h"
 
-class helloworldCannyProcessPrivate;
+class helloWorldCannyProcessPrivate;
 
-class HELLOWORLDPLUGIN_EXPORT helloworldCannyProcess : public dtkAbstractProcess
+class HELLOWORLDPLUGIN_EXPORT helloWorldCannyProcess : public dtkAbstractProcess
 {
     Q_OBJECT
 
 public:
-   helloworldCannyProcess(void);
-    virtual ~helloworldCannyProcess(void);
+   helloWorldCannyProcess(void);
+    virtual ~helloWorldCannyProcess(void);
 
     virtual QString description(void) const;
 
@@ -37,9 +37,9 @@ public slots:
 
 private:
     template <class ImageType> void runCanny();
-    helloworldCannyProcessPrivate *d;
+    helloWorldCannyProcessPrivate *d;
 
 };
 
-dtkAbstractProcess *createhelloworldCannyProcess();
+dtkAbstractProcess *createhelloWorldCannyProcess();
 

@@ -4,7 +4,7 @@
 
 cmake_minimum_required(VERSION 2.8.9)
 
-project(helloworldPlugin)
+project(helloWorldPlugin)
 
 ## #################################################################
 ## Setup version numbering
@@ -45,10 +45,10 @@ include(${ITK_USE_FILE})
 ## #################################################################
 
 set(${PROJECT_NAME}_HEADERS_MOC
-  helloworldPlugin.h
-  helloworldWorkspace.h
-  helloworldToolBox.h
-  helloworldCannyProcess.h
+  helloWorldPlugin.h
+  helloWorldWorkspace.h
+  helloWorldToolBox.h
+  helloWorldCannyProcess.h
   )
 
 set(${PROJECT_NAME}_HEADERS
@@ -56,10 +56,10 @@ set(${PROJECT_NAME}_HEADERS
   )
 
 set(${PROJECT_NAME}_SOURCES
-  helloworldPlugin.cpp
-  helloworldWorkspace.cpp
-  helloworldToolBox.cpp
-  helloworldCannyProcess.cpp
+  helloWorldPlugin.cpp
+  helloWorldWorkspace.cpp
+  helloWorldToolBox.cpp
+  helloWorldCannyProcess.cpp
   )
 
 

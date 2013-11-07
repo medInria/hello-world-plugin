@@ -17,19 +17,19 @@
 
 #include <medWorkspace.h>
 
-#include "helloworldPluginExport.h"
+#include "helloWorldPluginExport.h"
 
 
-class helloworldWorkspacePrivate;
+class helloWorldWorkspacePrivate;
 class medDataIndex;
 
-class HELLOWORLDPLUGIN_EXPORT helloworldWorkspace : public medWorkspace
+class HELLOWORLDPLUGIN_EXPORT helloWorldWorkspace : public medWorkspace
 {
     Q_OBJECT
 
 public:
-     helloworldWorkspace(QWidget *parent = 0);
-    ~helloworldWorkspace();
+     helloWorldWorkspace(QWidget *parent = 0);
+    ~helloWorldWorkspace();
 
     virtual void setupViewContainerStack();
 
@@ -48,6 +48,6 @@ signals:
     void dataValidForCanny(const bool valid);
 
 private:
-    helloworldWorkspacePrivate *d;
+    helloWorldWorkspacePrivate *d;
 };
 

@@ -15,18 +15,18 @@
 
 #include <medFilteringAbstractToolBox.h>
 
-#include "helloworldPluginExport.h"
+#include "helloWorldPluginExport.h"
 
-class helloworldToolBoxPrivate;
+class helloWorldToolBoxPrivate;
 class medDataIndex;
 
-class HELLOWORLDPLUGIN_EXPORT helloworldToolBox : public medToolBox
+class HELLOWORLDPLUGIN_EXPORT helloWorldToolBox : public medToolBox
 {
     Q_OBJECT
 
 public:
-    helloworldToolBox(QWidget *parentToolBox = 0);
-    ~helloworldToolBox();
+    helloWorldToolBox(QWidget *parentToolBox = 0);
+    ~helloWorldToolBox();
 
     static bool registered();
     dtkPlugin* plugin();
@@ -38,13 +38,13 @@ private slots:
     void talkToTheWorld();
 
 private:
-    helloworldToolBoxPrivate *d;
+    helloWorldToolBoxPrivate *d;
 
 signals:
     void runCannyProcess();
 
 };
 
-medToolBox *createhelloworldToolBox(QWidget *parent);
+medToolBox *createhelloWorldToolBox(QWidget *parent);
 
 
