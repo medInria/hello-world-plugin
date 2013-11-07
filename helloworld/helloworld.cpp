@@ -77,7 +77,7 @@ void helloworld::checkInput(const medDataIndex &index)
         return;
 
     QString type = QString (inputData->identifier());
-    unsigned int nbDimension =(*(type.end() - 1)).digitValue();
+    unsigned int nbDimension = type.right(1).toInt();
     if (!type.contains("itkData") || nbDimension != 3)
     {
         emit dataValidForCanny(false);
@@ -102,7 +102,7 @@ void helloworld::runCannyProcess()
 
     medMessageProgress *messageProgress = medMessageController::instance()->showProgress("Canny edge detection");
     messageProgress->setProgress(0);
-    connect(d->process, SIGNAL(progressed(int)), messageProgress, SLOT(setProgress(int)));
+    connect(runProcess, SIGNAL(progressed(int)), messageProgress, SLOT(setProgress(int)));
     connect(runProcess, SIGNAL(success(QObject*)), messageProgress, SLOT(success()));
 
     QThreadPool::globalInstance()->start(dynamic_cast<QRunnable*>(runProcess));
