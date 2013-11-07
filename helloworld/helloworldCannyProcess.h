@@ -18,6 +18,8 @@ public:
 
     static bool registered(void);
 
+    void emitProgressed(const int progression);
+
 
 public slots:
 
