@@ -11,7 +11,7 @@
 
 =========================================================================*/
 
-#include "helloworld.h"
+#include "helloworldWorkspace.h"
 
 
 #include <medTabbedViewContainers.h>
@@ -35,7 +35,7 @@
 
 #include <medMessageController.h>
 
-class helloworldPrivate
+class helloworldWorkspacePrivate
 {
 public:
     dtkSmartPointer <dtkAbstractData> inputData;
@@ -43,10 +43,10 @@ public:
 };
 
 // constructor of the workspace
-helloworld::helloworld(QWidget *parent) : medWorkspace(parent), d(new helloworldPrivate)
+helloworldWorkspace::helloworldWorkspace(QWidget *parent) : medWorkspace(parent), d(new helloworldWorkspacePrivate)
 {
     // Create suitable toolboxes and add them to the toolBox container of the workspace.
-    foreach(QString tbName, medToolBoxFactory::instance()->toolBoxesFromCategory("helloworld"))
+    foreach(QString tbName, medToolBoxFactory::instance()->toolBoxesFromCategory("helloworldWorkspace"))
     {
         medToolBox *tb = medToolBoxFactory::instance()->createToolBox(tbName);
         if (tb)
@@ -59,14 +59,14 @@ helloworld::helloworld(QWidget *parent) : medWorkspace(parent), d(new helloworld
 }
 
 // destructor
-helloworld::~helloworld(void)
+helloworldWorkspace::~helloworldWorkspace(void)
 {
     delete d;
     d = NULL;
 }
 
 // check if we do have an itkImage with 3 dimension
-void helloworld::checkInput(const medDataIndex &index)
+void helloworldWorkspace::checkInput(const medDataIndex &index)
 {
     if ( !index.isValid() )
         return;
@@ -88,7 +88,7 @@ void helloworld::checkInput(const medDataIndex &index)
     emit dataValidForCanny(true);
 }
 
-void helloworld::runCannyProcess()
+void helloworldWorkspace::runCannyProcess()
 {
      emit dataValidForCanny(false);
 
@@ -109,14 +109,14 @@ void helloworld::runCannyProcess()
 }
 
 
-void helloworld::setCannyOutput()
+void helloworldWorkspace::setCannyOutput()
 {
     this->currentViewContainer()->view()->close();
     this->currentViewContainer()->open(d->process->output());
 }
 
 // Create a new tab in the view container of the workspace, where one can open views.
-void helloworld::setupViewContainerStack()
+void helloworldWorkspace::setupViewContainerStack()
 {
     if (!this->stackedViewContainers()->count())
     {
@@ -131,27 +131,27 @@ void helloworld::setupViewContainerStack()
     }
 }
 
-QString helloworld::identifier() const {
-    return "helloworld";
+QString helloworldWorkspace::identifier() const {
+    return "helloworldWorkspace";
 }
 
-QString helloworld::description() const {
+QString helloworldWorkspace::description() const {
     return tr("Would I say : 'Hello World !!!' ?");
 }
 
-bool helloworld::isUsable(){
+bool helloworldWorkspace::isUsable(){
     return true;
 }
 
 // Your plugin could be dynamically load since you have implemented the registered methode.
 // It is call at the initialization of the plugin when the application start.
-bool helloworld::registered()
+bool helloworldWorkspace::registered()
 {
     // Here call a suitable factory, depending of the type of your plugin.
     // (ie: workspace, process, data, dataSource, etc.)
     return medWorkspaceFactory::instance()->registerWorkspace
-            <helloworld>(
-                "helloworld",
+            <helloworldWorkspace>(
+                "helloworldWorkspace",
                 "Hello world !!!",
                 "Would I say : 'Hello World !!!' ?"
                 );

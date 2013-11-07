@@ -11,7 +11,7 @@
 
 =========================================================================*/
 
-#include "helloworld.h"
+#include "helloworldWorkspace.h"
 #include "helloworldPlugin.h"
 #include "helloworldToolBox.h"
 #include "helloworldCannyProcess.h"
@@ -49,7 +49,7 @@ helloworldPlugin::~helloworldPlugin()
 
 bool helloworldPlugin::initialize()
 {
-    if(!helloworld::registered())
+    if(!helloworldWorkspace::registered())
         dtkWarn() << "Unable to register helloworld workspace";
 
     if(!helloworldToolBox::registered())
