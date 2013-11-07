@@ -11,7 +11,7 @@
 
 =========================================================================*/
 
-#include "helloworldToolBox.h"
+#include "helloWorldToolBox.h"
 
 #include <medToolBoxFactory.h>
 #include <medPluginManager.h>
@@ -24,42 +24,42 @@
 
 
 
-class helloworldToolBoxPrivate
+class helloWorldToolBoxPrivate
 {
 public:
     QPushButton *runCanny;
 };
 
-helloworldToolBox::helloworldToolBox (QWidget *parent) : medToolBox (parent), d(new helloworldToolBoxPrivate)
+helloWorldToolBox::helloWorldToolBox (QWidget *parent) : medToolBox (parent), d(new helloWorldToolBoxPrivate)
 {
     this->setTitle("The hello world toolbox");
     this->setAboutPluginVisibility(true);
     this->setAboutPluginButton(this->plugin());
 
     // Fill the toolBox
-    QWidget *helloworldToolBoxBody = new QWidget(this);
-    QPushButton *helloworldButton = new QPushButton("Click here", helloworldToolBoxBody);
-    d->runCanny = new QPushButton("run canny edge detection", helloworldToolBoxBody);
+    QWidget *helloWorldToolBoxBody = new QWidget(this);
+    QPushButton *helloWorldButton = new QPushButton("Click here", helloWorldToolBoxBody);
+    d->runCanny = new QPushButton("run canny edge detection", helloWorldToolBoxBody);
     d->runCanny->setDisabled(true);
-    QVBoxLayout *helloworldToolBoxLayout =  new QVBoxLayout(helloworldToolBoxBody);
-    helloworldToolBoxLayout->addWidget(helloworldButton);
-    helloworldToolBoxLayout->addWidget(d->runCanny);
-    helloworldToolBoxBody->setLayout(helloworldToolBoxLayout);
-    this->addWidget(helloworldToolBoxBody);
+    QVBoxLayout *helloWorldToolBoxLayout =  new QVBoxLayout(helloWorldToolBoxBody);
+    helloWorldToolBoxLayout->addWidget(helloWorldButton);
+    helloWorldToolBoxLayout->addWidget(d->runCanny);
+    helloWorldToolBoxBody->setLayout(helloWorldToolBoxLayout);
+    this->addWidget(helloWorldToolBoxBody);
 
     // Connections
-    connect(helloworldButton, SIGNAL(clicked()), this, SLOT(talkToTheWorld()));
+    connect(helloWorldButton, SIGNAL(clicked()), this, SLOT(talkToTheWorld()));
     connect(d->runCanny, SIGNAL(clicked()), this, SIGNAL(runCannyProcess()));
 }
 
-helloworldToolBox::~helloworldToolBox()
+helloWorldToolBox::~helloWorldToolBox()
 {
     delete d;
     d = NULL;
 }
 
 
-void helloworldToolBox::talkToTheWorld()
+void helloWorldToolBox::talkToTheWorld()
 {
     QMessageBox::information(this,
                              "Hi !",
@@ -67,32 +67,32 @@ void helloworldToolBox::talkToTheWorld()
                              );
 }
 
-void helloworldToolBox::enableCannyProcessButton(const bool enable)
+void helloWorldToolBox::enableCannyProcessButton(const bool enable)
 {
     d->runCanny->setEnabled(enable);
 }
 
 
-bool helloworldToolBox::registered()
+bool helloWorldToolBox::registered()
 {
     medToolBoxFactory* factory = medToolBoxFactory::instance();
-    return factory->registerToolBox<helloworldToolBox> ("helloworld",
+    return factory->registerToolBox<helloWorldToolBox> ("helloWorld",
                                                         "Hello world !!!",
                                                         "Would I say : 'Hello World !!!' ?",
-                                                        QStringList()<<"helloworld"
+                                                        QStringList()<<"helloWorld"
                                                         );
 }
 
 
-dtkPlugin* helloworldToolBox::plugin()
+dtkPlugin* helloWorldToolBox::plugin()
 {
     medPluginManager* pm = medPluginManager::instance();
-    dtkPlugin* plugin = pm->plugin ( "helloworldPlugin" );
+    dtkPlugin* plugin = pm->plugin ( "helloWorldPlugin" );
     return plugin;
 }
 
 
 medToolBox *createHelloworldToolBox (QWidget *parent)
 {
-    return new helloworldToolBox (parent);
+    return new helloWorldToolBox (parent);
 }

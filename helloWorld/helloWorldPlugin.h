@@ -15,18 +15,18 @@
 
 #include <dtkCore/dtkPlugin.h>
 
-#include "helloworldPluginExport.h"
+#include "helloWorldPluginExport.h"
 
-class HELLOWORLDPLUGIN_EXPORT helloworldPluginPrivate;
+class HELLOWORLDPLUGIN_EXPORT helloWorldPluginPrivate;
 
-class HELLOWORLDPLUGIN_EXPORT helloworldPlugin : public dtkPlugin
+class HELLOWORLDPLUGIN_EXPORT helloWorldPlugin : public dtkPlugin
 {
     Q_OBJECT
     Q_INTERFACES(dtkPlugin)
     
 public:
-    helloworldPlugin(QObject *parent = 0);
-    ~helloworldPlugin();
+    helloWorldPlugin(QObject *parent = 0);
+    ~helloWorldPlugin();
     
     virtual bool initialize();
     virtual bool uninitialize();
@@ -44,7 +44,7 @@ public:
     virtual QStringList types() const;
     
 private:
-    helloworldPluginPrivate *d;
+    helloWorldPluginPrivate *d;
 };
 
 

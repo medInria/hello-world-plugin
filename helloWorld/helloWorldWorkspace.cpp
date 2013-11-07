@@ -11,7 +11,7 @@
 
 =========================================================================*/
 
-#include "helloworldWorkspace.h"
+#include "helloWorldWorkspace.h"
 
 
 #include <medTabbedViewContainers.h>
@@ -27,7 +27,7 @@
 #include <medRunnableProcess.h>
 #include <medJobManager.h>
 
-#include "helloworldCannyProcess.h"
+#include "helloWorldCannyProcess.h"
 
 #include <medDataManager.h>
 #include <dtkCore/dtkAbstractData.h>
@@ -35,7 +35,7 @@
 
 #include <medMessageController.h>
 
-class helloworldWorkspacePrivate
+class helloWorldWorkspacePrivate
 {
 public:
     dtkSmartPointer <dtkAbstractData> inputData;
@@ -43,10 +43,10 @@ public:
 };
 
 // constructor of the workspace
-helloworldWorkspace::helloworldWorkspace(QWidget *parent) : medWorkspace(parent), d(new helloworldWorkspacePrivate)
+helloWorldWorkspace::helloWorldWorkspace(QWidget *parent) : medWorkspace(parent), d(new helloWorldWorkspacePrivate)
 {
     // Create suitable toolboxes and add them to the toolBox container of the workspace.
-    foreach(QString tbName, medToolBoxFactory::instance()->toolBoxesFromCategory("helloworldWorkspace"))
+    foreach(QString tbName, medToolBoxFactory::instance()->toolBoxesFromCategory("helloWorld"))
     {
         medToolBox *tb = medToolBoxFactory::instance()->createToolBox(tbName);
         if (tb)
@@ -59,14 +59,14 @@ helloworldWorkspace::helloworldWorkspace(QWidget *parent) : medWorkspace(parent)
 }
 
 // destructor
-helloworldWorkspace::~helloworldWorkspace(void)
+helloWorldWorkspace::~helloWorldWorkspace(void)
 {
     delete d;
     d = NULL;
 }
 
 // check if we do have an itkImage with 3 dimension
-void helloworldWorkspace::checkInput(const medDataIndex &index)
+void helloWorldWorkspace::checkInput(const medDataIndex &index)
 {
     if ( !index.isValid() )
         return;
@@ -88,11 +88,11 @@ void helloworldWorkspace::checkInput(const medDataIndex &index)
     emit dataValidForCanny(true);
 }
 
-void helloworldWorkspace::runCannyProcess()
+void helloWorldWorkspace::runCannyProcess()
 {
      emit dataValidForCanny(false);
 
-    d->process = dtkAbstractProcessFactory::instance()->createSmartPointer("helloworldCannyProcess");
+    d->process = dtkAbstractProcessFactory::instance()->createSmartPointer("helloWorldCannyProcess");
     d->process->setInput(d->inputData);
     medRunnableProcess *runProcess = new medRunnableProcess;
     runProcess->setProcess (d->process);
@@ -109,14 +109,14 @@ void helloworldWorkspace::runCannyProcess()
 }
 
 
-void helloworldWorkspace::setCannyOutput()
+void helloWorldWorkspace::setCannyOutput()
 {
     this->currentViewContainer()->view()->close();
     this->currentViewContainer()->open(d->process->output());
 }
 
 // Create a new tab in the view container of the workspace, where one can open views.
-void helloworldWorkspace::setupViewContainerStack()
+void helloWorldWorkspace::setupViewContainerStack()
 {
     if (!this->stackedViewContainers()->count())
     {
@@ -131,27 +131,27 @@ void helloworldWorkspace::setupViewContainerStack()
     }
 }
 
-QString helloworldWorkspace::identifier() const {
-    return "helloworldWorkspace";
+QString helloWorldWorkspace::identifier() const {
+    return "helloWorldWorkspace";
 }
 
-QString helloworldWorkspace::description() const {
+QString helloWorldWorkspace::description() const {
     return tr("Would I say : 'Hello World !!!' ?");
 }
 
-bool helloworldWorkspace::isUsable(){
+bool helloWorldWorkspace::isUsable(){
     return true;
 }
 
 // Your plugin could be dynamically load since you have implemented the registered methode.
 // It is call at the initialization of the plugin when the application start.
-bool helloworldWorkspace::registered()
+bool helloWorldWorkspace::registered()
 {
     // Here call a suitable factory, depending of the type of your plugin.
     // (ie: workspace, process, data, dataSource, etc.)
     return medWorkspaceFactory::instance()->registerWorkspace
-            <helloworldWorkspace>(
-                "helloworldWorkspace",
+            <helloWorldWorkspace>(
+                "helloWorldWorkspace",
                 "Hello world !!!",
                 "Would I say : 'Hello World !!!' ?"
                 );

@@ -11,110 +11,110 @@
 
 =========================================================================*/
 
-#include "helloworldWorkspace.h"
-#include "helloworldPlugin.h"
-#include "helloworldToolBox.h"
-#include "helloworldCannyProcess.h"
+#include "helloWorldWorkspace.h"
+#include "helloWorldPlugin.h"
+#include "helloWorldToolBox.h"
+#include "helloWorldCannyProcess.h"
 
 #include <dtkLog/dtkLog.h>
 
 // /////////////////////////////////////////////////////////////////
-// helloworldPluginPrivate
+// helloWorldPluginPrivate
 // /////////////////////////////////////////////////////////////////
 
-class helloworldPluginPrivate
+class helloWorldPluginPrivate
 {
 public:
     // Class variables go here.
     static const char *s_Name;
 };
 
-const char * helloworldPluginPrivate::s_Name = "helloworld";
+const char * helloWorldPluginPrivate::s_Name = "helloWorld";
 
 // /////////////////////////////////////////////////////////////////
-// helloworldPlugin
+// helloWorldPlugin
 // /////////////////////////////////////////////////////////////////
 
-helloworldPlugin::helloworldPlugin(QObject *parent) : dtkPlugin(parent), d(new helloworldPluginPrivate)
+helloWorldPlugin::helloWorldPlugin(QObject *parent) : dtkPlugin(parent), d(new helloWorldPluginPrivate)
 {
     
 }
 
-helloworldPlugin::~helloworldPlugin()
+helloWorldPlugin::~helloWorldPlugin()
 {
     delete d;
     
     d = NULL;
 }
 
-bool helloworldPlugin::initialize()
+bool helloWorldPlugin::initialize()
 {
-    if(!helloworldWorkspace::registered())
-        dtkWarn() << "Unable to register helloworld workspace";
+    if(!helloWorldWorkspace::registered())
+        dtkWarn() << "Unable to register helloWorld workspace";
 
-    if(!helloworldToolBox::registered())
-        dtkWarn() << "Unable to register helloworld toolboxe";
+    if(!helloWorldToolBox::registered())
+        dtkWarn() << "Unable to register helloWorld toolboxe";
 
-    if(!helloworldCannyProcess::registered())
-        dtkWarn() << "Unable to register helloworldCannyProcess process";
+    if(!helloWorldCannyProcess::registered())
+        dtkWarn() << "Unable to register helloWorldCannyProcess process";
 
     return true;
 }
 
-bool helloworldPlugin::uninitialize()
+bool helloWorldPlugin::uninitialize()
 {
     return true;
 }
 
-QString helloworldPlugin::name() const
+QString helloWorldPlugin::name() const
 {
-    return "helloworldPlugin";
+    return "helloWorldPlugin";
 }
 
-QString helloworldPlugin::description() const
+QString helloWorldPlugin::description() const
 {
     return tr("This is a small example to show how to create a project for a plugin and to build it with the medinria-superproject build on the side. "
               "The plugin create a new workspace that allow vizualiation and a toolbox with a button which popup a hello world message box.");
 }
 
-QString helloworldPlugin::version() const
+QString helloWorldPlugin::version() const
 {
     return HELLOWORLDPLUGIN_VERSION;
 }
 
-QString helloworldPlugin::contact() const
+QString helloWorldPlugin::contact() const
 {
     return "medinria-userfeedback@inria.fr";
 }
 
-QStringList helloworldPlugin::authors() const
+QStringList helloWorldPlugin::authors() const
 {
     return QStringList() << "Rene-paul Debroize";
 }
 
-QStringList helloworldPlugin::contributors() const
+QStringList helloWorldPlugin::contributors() const
 {
     return QStringList() << "Rene-paul Debroize";;
 }
 
-QString helloworldPlugin::identifier() const
+QString helloWorldPlugin::identifier() const
 {
-    return helloworldPluginPrivate::s_Name;
+    return helloWorldPluginPrivate::s_Name;
 }
 
 
-QStringList helloworldPlugin::tags() const
+QStringList helloWorldPlugin::tags() const
 {
     return QStringList() << "hello" << "world" << "example" << "how to";
 }
 
-QStringList helloworldPlugin::types() const
+QStringList helloWorldPlugin::types() const
 {
-    return QStringList() << "helloworld";
+    return QStringList() << "helloWorld";
 }
 
-QStringList helloworldPlugin::dependencies() const
+QStringList helloWorldPlugin::dependencies() const
 {
     return QStringList();
 }
-Q_EXPORT_PLUGIN2(helloworldPlugin, helloworldPlugin)
+Q_EXPORT_PLUGIN2(helloWorldPlugin, helloWorldPlugin)
