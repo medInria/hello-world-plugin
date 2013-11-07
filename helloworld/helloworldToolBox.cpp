@@ -23,6 +23,7 @@
 
 
 
+
 class helloworldToolBoxPrivate
 {
 public:
@@ -53,7 +54,8 @@ helloworldToolBox::helloworldToolBox (QWidget *parent) : medToolBox (parent), d(
 
 helloworldToolBox::~helloworldToolBox()
 {
-
+    delete d;
+    d = NULL;
 }
 
 
@@ -74,12 +76,11 @@ void helloworldToolBox::enableCannyProcessButton(const bool enable)
 bool helloworldToolBox::registered()
 {
     medToolBoxFactory* factory = medToolBoxFactory::instance();
-    return factory->registerToolBox<helloworldToolBox> (
-                "helloworld",
-                "Hello world !!!",
-                "Would I say : 'Hello World !!!' ?",
-                QStringList()<<"helloworld"
-                );
+    return factory->registerToolBox<helloworldToolBox> ("helloworld",
+                                                        "Hello world !!!",
+                                                        "Would I say : 'Hello World !!!' ?",
+                                                        QStringList()<<"helloworld"
+                                                        );
 }
 
 

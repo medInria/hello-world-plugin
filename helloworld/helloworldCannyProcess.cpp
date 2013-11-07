@@ -17,6 +17,7 @@
 #include <itkCastImageFilter.h>
 
 
+
 // /////////////////////////////////////////////////////////////////
 // helloworldCannyProcessPrivate
 // /////////////////////////////////////////////////////////////////
@@ -24,23 +25,45 @@
 class helloworldCannyProcessPrivate
 {
 public:
+    helloworldCannyProcess *parent;
+    helloworldCannyProcessPrivate(helloworldCannyProcess *p) {parent = p;}
+
     dtkSmartPointer <dtkAbstractData> input;
     dtkSmartPointer <dtkAbstractData> output;
     double variance;
+
+    itk::CStyleCommand::Pointer callback;
+    static void eventCallback(itk::Object* caller, const itk::EventObject& event, void* clientData);
 };
 
+
+void
+helloworldCannyProcessPrivate::eventCallback(itk::Object* caller, const itk::EventObject& event, void* clientData)
+{
+    helloworldCannyProcessPrivate *d = reinterpret_cast<helloworldCannyProcessPrivate *> (clientData);
+    itk::ProcessObject * processObject = ( itk::ProcessObject* ) caller;
+    d->parent->emitProgressed (static_cast<int>((processObject->GetProgress() * 100)));
+}
 
 // /////////////////////////////////////////////////////////////////
 // helloworldCannyProcess
 // /////////////////////////////////////////////////////////////////
 
-helloworldCannyProcess::helloworldCannyProcess(void) : dtkAbstractProcess(), d(new helloworldCannyProcessPrivate)
+helloworldCannyProcess::helloworldCannyProcess(void) : dtkAbstractProcess(), d(new helloworldCannyProcessPrivate(this))
 {
     d->variance = 12;
 }
 
 helloworldCannyProcess::~helloworldCannyProcess(void)
 {
+    delete d;
+    d = NULL;
+}
+
+void helloworldCannyProcess::emitProgressed(const int progression)
+{
+    emit progressed(progression);
+    qDebug() << "canny Progression" << progression;
 
 }
 
@@ -75,6 +98,10 @@ int helloworldCannyProcess::update ( void )
         qDebug() << "in update method : d->input is NULL";
         return -1;
     }
+
+    d->callback = itk::CStyleCommand::New();
+    d->callback->SetClientData((void*) this);
+    d->callback->SetCallback(helloworldCannyProcessPrivate::eventCallback);
 
     QString type = QString (d->input->identifier());
 
@@ -135,10 +162,10 @@ template <class ImageType> void helloworldCannyProcess::runCanny()
 
     typedef itk::CannyEdgeDetectionImageFilter <RealImageType, RealImageType> CannyFilter;
     typename CannyFilter::Pointer cannyFilter = CannyFilter::New();
-
     cannyFilter->SetVariance(d->variance);
-
     cannyFilter->SetInput(castFilter->GetOutput());
+    cannyFilter->AddObserver(itk::ProgressEvent(), d->callback);
+
     cannyFilter->Update();
 
     // update output data

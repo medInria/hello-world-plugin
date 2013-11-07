@@ -33,7 +33,7 @@
 #include <dtkCore/dtkAbstractData.h>
 #include <dtkCore/dtkAbstractProcessFactory.h>
 
-
+#include <medMessageController.h>
 
 class helloworldPrivate
 {
@@ -50,9 +50,11 @@ helloworld::helloworld(QWidget *parent) : medWorkspace(parent), d(new helloworld
     {
         medToolBox *tb = medToolBoxFactory::instance()->createToolBox(tbName);
         if (tb)
+        {
             this->addToolBox(tb);
-        connect(this, SIGNAL(dataValidForCanny(const bool)), tb, SLOT(enableCannyProcessButton(const bool)));
-        connect(tb, SIGNAL(runCannyProcess()), this, SLOT(runCannyProcess()));
+            connect(this, SIGNAL(dataValidForCanny(const bool)), tb, SLOT(enableCannyProcessButton(const bool)));
+            connect(tb, SIGNAL(runCannyProcess()), this, SLOT(runCannyProcess()));
+        }
     }
 }
 
@@ -98,8 +100,14 @@ void helloworld::runCannyProcess()
     medJobManager::instance()->registerJobItem(runProcess);
     connect(runProcess, SIGNAL(success(QObject*)), this, SLOT(setCannyOutput()));
 
+    medMessageProgress *messageProgress = medMessageController::instance()->showProgress("Canny edge detection");
+    messageProgress->setProgress(0);
+    connect(d->process, SIGNAL(progressed(int)), messageProgress, SLOT(setProgress(int)));
+    connect(runProcess, SIGNAL(success(QObject*)), messageProgress, SLOT(success()));
+
     QThreadPool::globalInstance()->start(dynamic_cast<QRunnable*>(runProcess));
 }
+
 
 void helloworld::setCannyOutput()
 {
