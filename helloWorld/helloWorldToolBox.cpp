@@ -90,9 +90,3 @@ dtkPlugin* helloWorldToolBox::plugin()
     dtkPlugin* plugin = pm->plugin ( "helloWorldPlugin" );
     return plugin;
 }
-
-
-medToolBox *createHelloworldToolBox (QWidget *parent)
-{
-    return new helloWorldToolBox (parent);
-}

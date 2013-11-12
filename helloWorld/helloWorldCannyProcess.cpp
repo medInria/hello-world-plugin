@@ -42,7 +42,7 @@ helloWorldCannyProcessPrivate::eventCallback(itk::Object* caller, const itk::Eve
 {
     helloWorldCannyProcessPrivate *d = reinterpret_cast<helloWorldCannyProcessPrivate *> (clientData);
     itk::ProcessObject * processObject = ( itk::ProcessObject* ) caller;
-    d->parent->emitProgressed (static_cast<int>((processObject->GetProgress() * 100)));
+    d->parent->emitProgressed (static_cast<int>((processObject->GetProgress() * 95)));
 }
 
 // /////////////////////////////////////////////////////////////////
@@ -52,7 +52,7 @@ helloWorldCannyProcessPrivate::eventCallback(itk::Object* caller, const itk::Eve
 helloWorldCannyProcess::helloWorldCannyProcess(void) : dtkAbstractProcess(), d(new helloWorldCannyProcessPrivate())
 {
     d->parent = this;
-    d->variance = 0.5;
+    d->variance = 50;
 }
 
 helloWorldCannyProcess::~helloWorldCannyProcess(void)
@@ -144,14 +144,11 @@ int helloWorldCannyProcess::update ( void )
     {
         runCanny<itk::Image<double, 3> >();
     }
-
     return EXIT_SUCCESS;
 }
 
 template <class ImageType> void helloWorldCannyProcess::runCanny()
 {
-
-
     //compute canny
     typedef itk::Image<float, 3> RealImageType;
     typedef itk::CastImageFilter <ImageType, RealImageType> CastFilter;
@@ -170,6 +167,7 @@ template <class ImageType> void helloWorldCannyProcess::runCanny()
     // update output data
     d->output = dtkAbstractDataFactory::instance()->createSmartPointer ("itkDataImageFloat3");
     d->output->setData(cannyFilter->GetOutput());
+    emit progressed(100);
 }
 
 dtkAbstractData * helloWorldCannyProcess::output ( void )

@@ -45,6 +45,5 @@ signals:
 
 };
 
-medToolBox *createhelloWorldToolBox(QWidget *parent);
 
 
