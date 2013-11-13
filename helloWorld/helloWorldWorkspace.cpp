@@ -148,8 +148,8 @@ bool helloWorldWorkspace::isUsable(){
     return true;
 }
 
-// Your plugin could be dynamically load since you have implemented the registered methode.
-// It is call at the initialization of the plugin when the application start.
+// Your plugin can be dynamically load once you have implemented the registered method.
+// It is called at the initialization of the plugin when the application starts.
 bool helloWorldWorkspace::registered()
 {
     // Here call a suitable factory, depending of the type of your plugin.
