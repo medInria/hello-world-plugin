@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 
-project(myProject)
+project(helloWorld)
 
 
 ## #############################################################################
@@ -34,7 +34,7 @@ endif(MSVC)
 ## #############################################################################
 
 # call add_subdirectory for all plugins directory
-add_subdirectory(myProjectDirectory)
+add_subdirectory(helloWorld)
 
   
 
