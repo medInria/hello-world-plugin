@@ -11,3 +11,8 @@
 *.lai
 *.la
 *.a
+
+# save and other generated files
+*.user
+*.save
+*.autosave

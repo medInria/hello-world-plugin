@@ -1,16 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 
-project(MyAwesomeProject)
-
-## #############################################################################
-## Enable precompiled headers for Visual studio
-## #############################################################################
-
-if (MSVC)
-  # Macros that enable precompiled headers to be added, defined by dtk.
-  include(dtkPch)
-  option(MEDINRIA_PLUGINS_USE_PRECOMPILED_HEADERS "Use precompiled headers" ON)
-endif(MSVC)
+project(myProject)
 
 
 ## #############################################################################
@@ -29,10 +19,22 @@ find_package(medInria-superProject REQUIRED)
 
 
 ## #############################################################################
+## Enable precompiled headers for Visual studio
+## #############################################################################
+
+if (MSVC)
+  # Macros that enable precompiled headers to be added, defined by dtk.
+  include(dtkPch)
+  option(USE_PRECOMPILED_HEADERS "Use precompiled headers" ON)
+endif(MSVC)
+
+
+## #############################################################################
 ## Add your plugins
 ## #############################################################################
 
-add_subdirectory(MyAwesomeProject-dir-name)
+# call add_subdirectory for all plugins directory
+add_subdirectory(myProjectDirectory)
 
   
 
