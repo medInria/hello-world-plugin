@@ -95,8 +95,6 @@ void helloWorldWorkspace::runCannyProcess()
     d->process = dtkAbstractProcessFactory::instance()->createSmartPointer("helloWorldCannyProcess");
     d->process->setInput(d->inputData);
 
-    qDebug() << "check!!!!!!";
-
     medRunnableProcess *runProcess = new medRunnableProcess;
     runProcess->setProcess (d->process);
 
