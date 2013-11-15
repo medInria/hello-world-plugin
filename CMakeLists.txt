@@ -8,6 +8,8 @@ project(myProject)
 ## #############################################################################
 
 find_package(medInria-superProject REQUIRED)
+
+
 # From here the following libraries are found and can be use in your plugins:
 #   -Qt
 #   -ITK
@@ -16,6 +18,10 @@ find_package(medInria-superProject REQUIRED)
 #   -RPI
 #   -QtDCM
 #   -medinria
+
+find_package(dtk REQUIRED)
+include(${dtk_USE_FILE})
+include(dtkPlugin)
 
 
 ## #############################################################################
