@@ -10,6 +10,7 @@ project(helloWorld)
 find_package(medInria-superProject REQUIRED)
 # From here the following libraries are found and can be use in your plugins:
 #   -Qt
+#   -dtk
 #   -ITK
 #   -VTK
 #   -TTK
@@ -17,10 +18,15 @@ find_package(medInria-superProject REQUIRED)
 #   -QtDCM
 #   -medinria
 
+find_package(dtk REQUIRED) # needed to enable precompiled headers
+include(${dtk_USE_FILE})
+
 
 ## #############################################################################
 ## Enable precompiled headers for Visual studio
 ## #############################################################################
+
+include(dtkPlugin)
 
 if (MSVC)
   # Macros that enable precompiled headers to be added, defined by dtk.
