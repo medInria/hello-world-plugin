@@ -33,8 +33,8 @@ find_package(dtk REQUIRED)
 include(${dtk_USE_FILE})
 include(dtkPlugin)
 
-find_package(medInria REQUIRED)
-include(${medInria_USE_FILE})
+find_package(MEDINRIA REQUIRED)
+include(${MEDINRIA_USE_FILE})
 
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
@@ -80,7 +80,6 @@ target_link_libraries(${PROJECT_NAME}
   dtkLog
   dtkCore
   medCore
-  medGui
   )
 
 

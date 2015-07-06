@@ -1,18 +1,12 @@
 #include "helloWorldCannyProcess.h"
 
-#include <dtkCore/dtkAbstractProcessFactory.h>
-#include <dtkCore/dtkSmartPointer.h>
-
-#include <dtkCore/dtkAbstractDataFactory.h>
-#include <dtkCore/dtkAbstractData.h>
-#include <dtkCore/dtkAbstractProcess.h>
-
 #include <medMetaDataKeys.h>
+#include <medAbstractDataFactory.h>
 
 #include <itkCannyEdgeDetectionImageFilter.h>
 #include <itkCastImageFilter.h>
 
-
+#include <dtkCore/dtkAbstractProcessFactory>
 
 // /////////////////////////////////////////////////////////////////
 // helloWorldCannyProcessPrivate
@@ -24,8 +18,8 @@ public:
     helloWorldCannyProcess *parent;
     helloWorldCannyProcessPrivate() :parent(NULL){}
 
-    dtkSmartPointer <dtkAbstractData> input;
-    dtkSmartPointer <dtkAbstractData> output;
+    medAbstractData* input;
+    medAbstractData* output;
     double variance;
 
     itk::CStyleCommand::Pointer callback;
@@ -45,10 +39,13 @@ helloWorldCannyProcessPrivate::eventCallback(itk::Object* caller, const itk::Eve
 // helloWorldCannyProcess
 // /////////////////////////////////////////////////////////////////
 
-helloWorldCannyProcess::helloWorldCannyProcess(void) : dtkAbstractProcess(), d(new helloWorldCannyProcessPrivate())
+helloWorldCannyProcess::helloWorldCannyProcess(void) : medAbstractProcess(), d(new helloWorldCannyProcessPrivate())
 {
     d->parent = this;
     d->variance = 50;
+
+    d->input = NULL;
+    d->output = NULL;
 }
 
 helloWorldCannyProcess::~helloWorldCannyProcess(void)
@@ -65,7 +62,8 @@ void helloWorldCannyProcess::emitProgressed(int progression)
 
 bool helloWorldCannyProcess::registered(void)
 {
-    return dtkAbstractProcessFactory::instance()->registerProcessType("helloWorldCannyProcess", createhelloWorldCannyProcess);
+    return true;
+    //return dtkAbstractProcessFactory::instance()->registerProcessType("helloWorldCannyProcess", createhelloWorldCannyProcess);
 }
 
 QString helloWorldCannyProcess::description(void) const
@@ -73,7 +71,7 @@ QString helloWorldCannyProcess::description(void) const
     return "helloWorldCannyProcess";
 }
 
-void helloWorldCannyProcess::setInput ( dtkAbstractData *data )
+void helloWorldCannyProcess::setInputData(medAbstractData *data)
 {
     if ( !data )
         return;
@@ -81,9 +79,9 @@ void helloWorldCannyProcess::setInput ( dtkAbstractData *data )
     d->input = data;
 }
 
-void helloWorldCannyProcess::setParameter ( double  data, int channel )
+void helloWorldCannyProcess::setVariance(unsigned int variance)
 {
-    d->variance = (unsigned int)data;
+    d->variance = variance;
 }
 
 int helloWorldCannyProcess::update ( void )
@@ -161,24 +159,13 @@ template <class ImageType> void helloWorldCannyProcess::runCanny()
     cannyFilter->Update();
 
     // update output data
-    d->output = dtkAbstractDataFactory::instance()->createSmartPointer ("itkDataImageFloat3");
+    d->output = medAbstractDataFactory::instance()->create("itkDataImageFloat3");
     d->output->setData(cannyFilter->GetOutput());
     emit progressed(100);
 }
 
-dtkAbstractData * helloWorldCannyProcess::output ( void )
+medAbstractData *helloWorldCannyProcess::output( void )
 {
     return ( d->output );
 }
-
-
-// /////////////////////////////////////////////////////////////////
-// Type instantiation
-// /////////////////////////////////////////////////////////////////
-
-dtkAbstractProcess *createhelloWorldCannyProcess(void)
-{
-    return new helloWorldCannyProcess;
-}
-
 

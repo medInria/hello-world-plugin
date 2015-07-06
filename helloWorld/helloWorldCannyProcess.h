@@ -1,12 +1,12 @@
 #pragma once
 
-#include <dtkCore/dtkAbstractProcess.h>
+#include <medAbstractProcess.h>
 
 #include "helloWorldPluginExport.h"
 
 class helloWorldCannyProcessPrivate;
 
-class HELLOWORLDPLUGIN_EXPORT helloWorldCannyProcess : public dtkAbstractProcess
+class HELLOWORLDPLUGIN_EXPORT helloWorldCannyProcess : public medAbstractProcess
 {
     Q_OBJECT
 
@@ -24,22 +24,19 @@ public:
 public slots:
 
     //! Input data to the plugin is set through here
-    void setInput(dtkAbstractData *data);
+    void setInputData(medAbstractData *data);
 
-    //! Parameters are set through here, channel allows to handle multiple parameters
-    void setParameter(double  data, int channel);
+    //! variance parameter of the canny edge detection filtrer.
+    void setVariance(unsigned int variance);
 
     //! Method to actually start the filter
     int update(void);
 
     //! The output will be available through here
-    dtkAbstractData *output(void);
+    medAbstractData *output(void);
 
 private:
     template <class ImageType> void runCanny();
     helloWorldCannyProcessPrivate *d;
 
 };
-
-dtkAbstractProcess *createhelloWorldCannyProcess();
-

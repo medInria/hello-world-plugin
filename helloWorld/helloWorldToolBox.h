@@ -24,6 +24,10 @@ class HELLOWORLDPLUGIN_EXPORT helloWorldToolBox : public medToolBox
 {
     Q_OBJECT
 
+    MED_TOOLBOX_INTERFACE("Hello World",
+                          "Hello World !!!",
+                          <<"helloWorld")
+
 public:
     helloWorldToolBox(QWidget *parentToolBox = 0);
     ~helloWorldToolBox();

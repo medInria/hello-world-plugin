@@ -15,7 +15,7 @@
 
 #include <QtCore>
 
-#include <medWorkspace.h>
+#include <medAbstractWorkspace.h>
 
 #include "helloWorldPluginExport.h"
 
@@ -23,24 +23,22 @@
 class helloWorldWorkspacePrivate;
 class medDataIndex;
 
-class HELLOWORLDPLUGIN_EXPORT helloWorldWorkspace : public medWorkspace
+class HELLOWORLDPLUGIN_EXPORT helloWorldWorkspace : public medAbstractWorkspace
 {
     Q_OBJECT
+    MED_WORKSPACE_INTERFACE("Hello World",
+                            "Hello World.")
 
 public:
      helloWorldWorkspace(QWidget *parent = 0);
     ~helloWorldWorkspace();
 
     virtual void setupViewContainerStack();
-
-    virtual QString identifier()  const;
-    virtual QString description() const;
     static bool isUsable();
-
     static bool registered();
 
 private slots:
-    void checkInput(const medDataIndex &index);
+    void checkInput();
     void runCannyProcess();
     void setCannyOutput();
 

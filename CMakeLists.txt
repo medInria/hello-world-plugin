@@ -16,7 +16,7 @@ find_package(medInria-superProject REQUIRED)
 #   -TTK
 #   -RPI
 #   -QtDCM
-#   -medinria
+#   -MEDINRIA
 
 find_package(dtk REQUIRED) # needed to enable precompiled headers
 include(${dtk_USE_FILE})

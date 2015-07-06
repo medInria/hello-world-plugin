@@ -76,11 +76,7 @@ void helloWorldToolBox::enableCannyProcessButton(const bool enable)
 bool helloWorldToolBox::registered()
 {
     medToolBoxFactory* factory = medToolBoxFactory::instance();
-    return factory->registerToolBox<helloWorldToolBox> ("helloWorld",
-                                                        "Hello world !!!",
-                                                        "Would I say : 'Hello World !!!' ?",
-                                                        QStringList()<<"helloWorld"
-                                                        );
+    return factory->registerToolBox<helloWorldToolBox> ();
 }
 
 

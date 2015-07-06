@@ -13,38 +13,47 @@
 
 #include "helloWorldWorkspace.h"
 
+#include <QMessageBox>
 
 #include <medTabbedViewContainers.h>
 #include <medToolBox.h>
 #include <medToolBoxFactory.h>
-#include <QMessageBox>
 #include <medAbstractView.h>
-
 #include <medWorkspaceFactory.h>
-#include <medSingleViewContainer.h>
-
 #include <medDataIndex.h>
 #include <medRunnableProcess.h>
 #include <medJobManager.h>
+#include <medDataManager.h>
+#include <medMessageController.h>
+#include <medAbstractProcess.h>
+#include <medViewContainer.h>
+#include <medAbstractImageView.h>
+
+#include <dtkCore/dtkAbstractProcessFactory>
+#include <dtkCore/dtkSmartPointer>
+#include <dtkCore/dtkAbstractProcess>
+
 
 #include "helloWorldCannyProcess.h"
 
-#include <medDataManager.h>
-#include <dtkCore/dtkAbstractData.h>
-#include <dtkCore/dtkAbstractProcessFactory.h>
-
-#include <medMessageController.h>
 
 class helloWorldWorkspacePrivate
 {
 public:
-    dtkSmartPointer <dtkAbstractData> inputData;
-    dtkSmartPointer<dtkAbstractProcess> process;
+    medAbstractData *inputData;
+    dtkSmartPointer<helloWorldCannyProcess> process;
+    medViewContainer *inputContainer;
 };
 
 // constructor of the workspace
-helloWorldWorkspace::helloWorldWorkspace(QWidget *parent) : medWorkspace(parent), d(new helloWorldWorkspacePrivate)
+helloWorldWorkspace::helloWorldWorkspace(QWidget *parent) : medAbstractWorkspace(parent), d(new helloWorldWorkspacePrivate)
 {
+
+    d->process = new helloWorldCannyProcess;
+    qDebug() << d->process->description();
+
+    d->inputContainer = NULL;
+
     // Create suitable toolboxes and add them to the toolBox container of the workspace.
     foreach(QString tbName, medToolBoxFactory::instance()->toolBoxesFromCategory("helloWorld"))
     {
@@ -61,39 +70,42 @@ helloWorldWorkspace::helloWorldWorkspace(QWidget *parent) : medWorkspace(parent)
 // destructor
 helloWorldWorkspace::~helloWorldWorkspace(void)
 {
+    delete d->process;
+
     delete d;
     d = NULL;
 }
 
 // check if we do have an itkImage with 3 dimension
-void helloWorldWorkspace::checkInput(const medDataIndex &index)
+void helloWorldWorkspace::checkInput()
 {
-    if ( !index.isValid() )
-        return;
+    bool valid = true;
 
-    dtkAbstractData *inputData = medDataManager::instance()->data(index).data();
+    medAbstractImageView *inputView = dynamic_cast<medAbstractImageView *>(d->inputContainer->view());
+    if(!inputView)
+        valid = false;
 
-    if ( !inputData )
-        return;
-
-    QString type = QString (inputData->identifier());
-    unsigned int nbDimension = type.right(1).toInt();
-    if (!type.contains("itkData") || nbDimension != 3)
+    medAbstractData *inputData = inputView->layerData(inputView->currentLayer());
+    if(!inputData)
+        valid = false;
+    else
     {
-        emit dataValidForCanny(false);
-        return;
+        QString type = QString (inputData->identifier());
+        unsigned int nbDimension = type.right(1).toInt();
+        if (!type.contains("itkData") || nbDimension != 3)
+            valid = false;
     }
-
-    d->inputData = inputData;
-    emit dataValidForCanny(true);
+    emit dataValidForCanny(valid);
 }
 
 void helloWorldWorkspace::runCannyProcess()
 {
-     emit dataValidForCanny(false);
+    emit dataValidForCanny(false);
+    medAbstractImageView *inputView = dynamic_cast<medAbstractImageView *>(d->inputContainer->view());
 
-    d->process = dtkAbstractProcessFactory::instance()->createSmartPointer("helloWorldCannyProcess");
-    d->process->setInput(d->inputData);
+    qDebug() << d->process->description();
+
+    d->process->setInputData(inputView->layerData(inputView->currentLayer()));
 
     medRunnableProcess *runProcess = new medRunnableProcess;
     runProcess->setProcess (d->process);
@@ -114,8 +126,11 @@ void helloWorldWorkspace::runCannyProcess()
 
 void helloWorldWorkspace::setCannyOutput()
 {
-    this->currentViewContainer()->view()->close();
-    this->currentViewContainer()->open(d->process->output());
+    medAbstractData* data = d->process->output();
+    medDataManager::instance()->importData(data);
+
+    d->inputContainer->setView(0);
+    d->inputContainer->addData(data);
 }
 
 // Create a new tab in the view container of the workspace, where one can open views.
@@ -123,23 +138,22 @@ void helloWorldWorkspace::setupViewContainerStack()
 {
     if (!this->stackedViewContainers()->count())
     {
-        medSingleViewContainer *singleViewContainer = new medSingleViewContainer ();
-        connect(singleViewContainer, SIGNAL(imageSet(medDataIndex)),
-                    this, SLOT(checkInput(medDataIndex)));
 
-        singleViewContainer->setMultiLayer(false);
-        this->stackedViewContainers()->addContainer (identifier(), singleViewContainer);
+        d->inputContainer = this->stackedViewContainers()->addContainerInTab(this->name());
+        QLabel *inputLabel = new QLabel("INPUT");
+        inputLabel->setAlignment(Qt::AlignCenter);
+        d->inputContainer->setDefaultWidget(inputLabel);
+
+        d->inputContainer->setClosingMode(medViewContainer::CLOSE_VIEW);
+        d->inputContainer->setUserSplittable(false);
+        d->inputContainer->setMultiLayered(false);
+
         this->stackedViewContainers()->lockTabs();
         this->stackedViewContainers()->hideTabBar();
+        d->inputContainer->setSelected(true);
+
+        connect(d->inputContainer, SIGNAL(viewContentChanged()), this, SLOT(checkInput()));
     }
-}
-
-QString helloWorldWorkspace::identifier() const {
-    return "helloWorldWorkspace";
-}
-
-QString helloWorldWorkspace::description() const {
-    return tr("Would I say : 'Hello World !!!' ?");
 }
 
 bool helloWorldWorkspace::isUsable(){
@@ -152,10 +166,5 @@ bool helloWorldWorkspace::registered()
 {
     // Here call a suitable factory, depending of the type of your plugin.
     // (ie: workspace, process, data, dataSource, etc.)
-    return medWorkspaceFactory::instance()->registerWorkspace
-            <helloWorldWorkspace>(
-                "helloWorldWorkspace",
-                "Hello world !!!",
-                "Would I say : 'Hello World !!!' ?"
-                );
+    return medWorkspaceFactory::instance()->registerWorkspace<helloWorldWorkspace>();
 }
