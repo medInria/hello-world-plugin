@@ -27,7 +27,8 @@ class HELLOWORLDPLUGIN_EXPORT helloWorldWorkspace : public medAbstractWorkspace
 {
     Q_OBJECT
     MED_WORKSPACE_INTERFACE("Hello World",
-                            "Hello World.")
+                            "Hello World",
+                            "Methodology")
 
 public:
      helloWorldWorkspace(QWidget *parent = 0);
