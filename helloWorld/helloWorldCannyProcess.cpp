@@ -62,8 +62,8 @@ void helloWorldCannyProcess::emitProgressed(int progression)
 
 bool helloWorldCannyProcess::registered(void)
 {
-    return true;
-    //return dtkAbstractProcessFactory::instance()->registerProcessType("helloWorldCannyProcess", createhelloWorldCannyProcess);
+    //return true;
+    return dtkAbstractProcessFactory::instance()->registerProcessType("helloWorldCannyProcess", createhelloWorldCannyProcess);
 }
 
 QString helloWorldCannyProcess::description(void) const
@@ -167,5 +167,10 @@ template <class ImageType> void helloWorldCannyProcess::runCanny()
 medAbstractData *helloWorldCannyProcess::output( void )
 {
     return ( d->output );
+}
+
+dtkAbstractProcess * createhelloWorldCannyProcess ( void )
+{
+    return new helloWorldCannyProcess;
 }
 

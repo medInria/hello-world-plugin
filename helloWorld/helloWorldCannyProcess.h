@@ -40,3 +40,5 @@ private:
     helloWorldCannyProcessPrivate *d;
 
 };
+
+dtkAbstractProcess * createhelloWorldCannyProcess(void);
